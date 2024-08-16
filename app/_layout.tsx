@@ -32,7 +32,9 @@ export default function RootLayout() {
       <CartProvider>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name='CartScreen'   />
+        <Stack.Screen name='HomeScreen'  />
+
+        <Stack.Screen name='CartScreen' />
       </Stack>
       </CartProvider>
     </ThemeProvider>

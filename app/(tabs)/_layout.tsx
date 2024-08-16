@@ -14,21 +14,22 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
       }}>
+      
       <Tabs.Screen
-        name="index"
+        name="HomeScreen"
         options={{
-          title: 'Home',
+          title: 'HomeScreen',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
-        name="explore"
+          <Tabs.Screen
+        name="CartScreen"
         options={{
-          title: 'Explore',
+          title: 'CartScreen',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+<TabBarIcon name={focused ? 'cart' : 'cart-outline'} color={color} />
           ),
         }}
       />

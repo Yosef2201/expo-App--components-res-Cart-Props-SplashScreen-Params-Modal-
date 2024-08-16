@@ -42,7 +42,11 @@ const ComponentCard = ({ item }) => {
                 <Text style={styles.txt3}>{item.description}</Text>
                 <View style={styles.pp}>
                     <Text style={styles.txt4}>{item.price * c}$</Text>
-                    <View style={styles.count}>
+                   
+                </View>
+                <View style={styles.CC}>
+
+                <View style={styles.count}>
                         <TouchableOpacity onPress={plus}>
                             <Text style={styles.txt2}>+</Text>
                         </TouchableOpacity>
@@ -50,11 +54,19 @@ const ComponentCard = ({ item }) => {
                         <TouchableOpacity onPress={minus}>
                             <Text style={styles.txt2}>-</Text>
                         </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity onPress={handleAddToCart}>
+                        </View>
+
+                        <View >
+
+                        <TouchableOpacity onPress={handleAddToCart}>
                         <Text style={styles.addToCart}>Add To Cart</Text>
+                        
                     </TouchableOpacity>
-                </View>
+                    </View>
+
+                    </View>
+
+                   
             </View>
             <View>
                 <Image style={styles.image} source={item.img} />
@@ -86,7 +98,9 @@ const styles = StyleSheet.create({
     txt4: {
         backgroundColor: 'red',
         color: 'white',
-        padding: 8
+        padding: 8,
+        marginLeft:'auto',
+        marginTop:5
     },
     count: {
         flexDirection: 'row',
@@ -101,9 +115,17 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     addToCart: {
-        marginLeft: 15,
+        marginLeft: 30,
         fontSize: 18,
         fontWeight: 'bold',
-        color: 'blue'
+        color: 'blue',
+        borderWidth:2,
+        padding:5,
+        backgroundColor:'yellow'
+    },
+    CC:{
+        flexDirection:'row',
+        marginTop:10,
+        
     }
 });
