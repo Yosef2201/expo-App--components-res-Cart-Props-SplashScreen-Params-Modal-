@@ -14,8 +14,9 @@ export default Icon;
 
 const styles = StyleSheet.create({
     image: {
-        marginHorizontal: 20,
+        marginHorizontal: 15,
         width: 70,
-        height: 70
+        height: 70,
+        borderRadius:35
     }
 });

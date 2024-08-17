@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View,ScrollView ,TouchableOpacity} from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View,ScrollView ,TouchableOpacity, Pressable} from 'react-native'
+import React, { useState } from 'react'
 import dataM from'../res/dataMenuHeader'
 import Card from '../../components/Card'
 import Gellary from'../res/dataGellary'
@@ -9,7 +9,9 @@ import Icon from '../../components/Icon'
 import dataComponentCard from '../res/dataComponentCard'
 import ComponentCard from '../../components/ComponentCard'
 import { useNavigation } from 'expo-router'
+import ModalNew from '../../components/ModalNew'
 const HomeScreen = () => {
+  const [modalVisible, setModalVisible] = useState(false);
 
   const Nav=useNavigation()
   const renderDataCard =()=>{
@@ -29,12 +31,12 @@ const HomeScreen = () => {
   }
   const renderComponentCard = () => {
     return dataComponentCard.map((category) => (
-      <TouchableOpacity  >
+      <View  >
         <Text style={styles.catagoyyName}>{category.name}</Text>
         {category.data.map((item) => (
           <ComponentCard key={item.id} item={item} />
         ))}
-      </TouchableOpacity>
+      </View>
     ));
   };
   const goToCart=()=>{
@@ -58,6 +60,10 @@ const HomeScreen = () => {
       {renderIcons()}
 
       </ScrollView>
+      <TouchableOpacity
+      onPress={() => setModalVisible(true)}>
+      <Text style={styles.textModal}>Show Modal</Text>
+    </TouchableOpacity>
       <TouchableOpacity onPress={goToCart} >
         <Text  style={styles.textCart}>Cart</Text>
       </TouchableOpacity>
@@ -65,6 +71,9 @@ const HomeScreen = () => {
       {renderComponentCard()}
 
       </ScrollView>
+      <ModalNew modalVisible={modalVisible} setModalVisible={setModalVisible} />
+
+
     </View>
     </ScrollView>
   )
@@ -89,5 +98,12 @@ const styles = StyleSheet.create({
     textAlign:'center',
 borderWidth:2,
 margin:30
+  },
+  textModal:{
+    backgroundColor:'blue',
+    padding:10,
+    width:100,
+    margin:'auto',
+    marginTop:10
   }
 })

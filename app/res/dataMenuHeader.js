@@ -1,6 +1,6 @@
 const dataM=[
-    {id:1,name:'aaaaa'},
-    {id:2,name:'bbbbbb'},
-   { id:3,name:'ccccccc'}
+    {id:1,name:'Home'},
+    {id:2,name:'Profile'},
+   { id:3,name:'Log Out'}
 ]
 export default dataM

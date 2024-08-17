@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { useContext, useState } from 'react';
 import { CartContext } from '../app/context/CartContext';
+import { useNavigation } from 'expo-router';
 
 const ComponentCard = ({ item }) => {
     const [c, setC] = useState(1);
     const { addToCart } = useContext(CartContext);
+    const Nav =useNavigation()
 
     const plus = () => {
         setC(c + 1);
@@ -35,7 +37,7 @@ const ComponentCard = ({ item }) => {
 
     return (
         <View style={styles.container}>
-            <View>
+            <TouchableOpacity onPress={()=>Nav.navigate('LastScreen',{...item})}>
                 <Text style={styles.txt}>{item.name}</Text>
                 <Text style={styles.txt3}>{item.address}</Text>
                 <Text style={styles.txt3}>{item.phone}</Text>
@@ -67,7 +69,7 @@ const ComponentCard = ({ item }) => {
                     </View>
 
                    
-            </View>
+            </TouchableOpacity >
             <View>
                 <Image style={styles.image} source={item.img} />
             </View>

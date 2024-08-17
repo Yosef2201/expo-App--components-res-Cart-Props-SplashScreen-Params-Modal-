@@ -14,9 +14,9 @@ export default GellaryComponent
 
 const styles = StyleSheet.create({
     pic:{
-        width:300,
-        height:170,
-        borderRadius:10
+        width:320,
+        height:160,
+        borderRadius:30
     },
     container:{
         padding:5
