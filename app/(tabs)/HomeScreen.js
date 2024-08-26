@@ -10,6 +10,7 @@ import dataComponentCard from '../res/dataComponentCard'
 import ComponentCard from '../../components/ComponentCard'
 import { useNavigation } from 'expo-router'
 import ComponentCardData from './../../components/ComponentCardData';
+import screenNames from './../res/screenNames';
 const HomeScreen = () => {
 
   const Nav=useNavigation()
@@ -29,16 +30,16 @@ const HomeScreen = () => {
     ))
   }
   const renderComponentCard = () => {
-    return dataComponentCard.map((category) => (
+    return dataComponentCard.map((item) => (
       <View  >
         
-          <ComponentCardData  data={category} />
+          <ComponentCardData  props={item} />
  
       </View>
     ));
   };
   const goToCart=()=>{
-    Nav.navigate('CartScreen')
+    Nav.navigate(screenNames.HomeScreen)
 
   }
  
@@ -66,7 +67,7 @@ const HomeScreen = () => {
       {renderIcons()}
 
       </ScrollView>
-      <ScrollView >
+      <ScrollView  >
       {renderComponentCard()}
 
       </ScrollView>

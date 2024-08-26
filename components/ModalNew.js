@@ -1,11 +1,44 @@
+import { useContext } from 'react';
+import { useState } from 'react';
 import { StyleSheet, Text, View, Modal, Image, TouchableOpacity } from 'react-native';
+import { CartContext } from '../app/context/CartContext';
 
 const ModalNew = ({ modalVisible, setModalVisible,item  }) => {
-    const { name, address, phone, description, img } = item ;
+    const [c, setC] = useState(1);
+    const { addToCart } = useContext(CartContext);
 
+
+    const { name, address, phone, description, img,id,price } = item ;
+    const plus = () => {
+        setC(c + 1);
+    };
+    
+
+    const minus = () => {
+        if (c > 1) {
+            setC(c - 1);
+        }
+    };
+    const handleAddToCart = () => {
+        // إنشاء كائن جديد يتضمن تفاصيل العنصر والكمية
+        const newItem = {
+            id: id,
+            name: name,
+            address: address,
+            phone: phone,
+            description: description,
+            price: price,
+            img: img,
+            c: c, // أضف الكمية المحددة
+        };
+    
+        // إضافة الكائن إلى سلة التسوق
+        addToCart(newItem);
+        setModalVisible('false')
+    };
     return (
         <Modal
-            // animationType="slide"
+            animationType="slide"
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => setModalVisible(!modalVisible)}>
@@ -16,6 +49,21 @@ const ModalNew = ({ modalVisible, setModalVisible,item  }) => {
                     <Text>{phone}</Text>
                     <Text>{address}</Text>
                     <Text>{description}</Text>
+                    <View style={styles.count}>
+                        <TouchableOpacity onPress={plus}>
+                            <Text style={styles.txt2}>+</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.txt2}>{c}</Text>
+                        <TouchableOpacity onPress={minus}>
+                            <Text style={styles.txt2}>-</Text>
+                        </TouchableOpacity>
+                    
+    
+                    </View>
+                    <TouchableOpacity onPress={handleAddToCart} >
+<Text style={styles.addToCart}>Add To Cart</Text>
+
+</TouchableOpacity>
                     <TouchableOpacity onPress={() => setModalVisible(false)}>
                         <Text style={styles.closeText}>Close</Text>
                     </TouchableOpacity>
@@ -58,4 +106,17 @@ const styles = StyleSheet.create({
         marginTop: 15,
         fontSize: 18,
     },
+    count: {
+        flexDirection: 'row',
+        borderWidth: 0.6,
+        width:100,
+        padding:2
+        
+        },
+        addToCart: {
+            color: 'blue',
+        marginTop: 15,
+        fontSize: 18,
+        },
+        
 });
