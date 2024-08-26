@@ -2,11 +2,13 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { useContext, useState } from 'react';
 import { CartContext } from '../app/context/CartContext';
 import { useNavigation } from 'expo-router';
+import ModalNew from './ModalNew';
 
-const ComponentCard = ({ item }) => {
+const ComponentCard = ({ props }) => {
     const [c, setC] = useState(1);
     const { addToCart } = useContext(CartContext);
     const Nav =useNavigation()
+    const [modalVisible, setModalVisible] = useState(false);
 
     const plus = () => {
         setC(c + 1);
@@ -17,17 +19,17 @@ const ComponentCard = ({ item }) => {
             setC(c - 1);
         }
     };
-
+    
     const handleAddToCart = () => {
         // إنشاء كائن جديد يتضمن تفاصيل العنصر والكمية
         const newItem = {
-            id: item.id,
-            name: item.name,
-            address: item.address,
-            phone: item.phone,
-            description: item.description,
-            price: item.price,
-            img: item.img,
+            id: props.id,
+            name: props.name,
+            address: props.address,
+            phone: props.phone,
+            description: props.description,
+            price: props.price,
+            img: props.img,
             c: c, // أضف الكمية المحددة
         };
     
@@ -37,15 +39,12 @@ const ComponentCard = ({ item }) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={()=>Nav.navigate('LastScreen',{...item})}>
-                <Text style={styles.txt}>{item.name}</Text>
-                <Text style={styles.txt3}>{item.address}</Text>
-                <Text style={styles.txt3}>{item.phone}</Text>
-                <Text style={styles.txt3}>{item.description}</Text>
-                <View style={styles.pp}>
-                    <Text style={styles.txt4}>{item.price * c}$</Text>
-                   
-                </View>
+<TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <Text style={styles.name}>{props.name}</Text>
+                <Text style={styles.txt3}>{props.address}</Text>
+                <Text style={styles.txt3}>{props.phone}</Text>
+                <Text style={styles.txt3}>{props.description}</Text>
+                
                 <View style={styles.CC}>
 
                 <View style={styles.count}>
@@ -57,22 +56,27 @@ const ComponentCard = ({ item }) => {
                             <Text style={styles.txt2}>-</Text>
                         </TouchableOpacity>
                         </View>
+                        <Text style={styles.price}>{props.price * c}$</Text>
 
-                        <View >
-
-                        <TouchableOpacity onPress={handleAddToCart}>
-                        <Text style={styles.addToCart}>Add To Cart</Text>
-                        
-                    </TouchableOpacity>
-                    </View>
+                    
 
                     </View>
-
+       
                    
             </TouchableOpacity >
             <View>
-                <Image style={styles.image} source={item.img} />
+                <Image style={styles.image} source={props.img} />
+                {/* <Text >Location</Text> */}
+                <View >
+
+<TouchableOpacity onPress={handleAddToCart}>
+<Text style={styles.addToCart}>Add To Cart</Text>
+
+</TouchableOpacity>
+</View>
             </View>
+            <ModalNew modalVisible={modalVisible} setModalVisible={setModalVisible} item={props}/>
+
         </View>
     );
 };
@@ -82,52 +86,66 @@ export default ComponentCard;
 const styles = StyleSheet.create({
     container: { 
         flexDirection: 'row',
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
         padding: 10
     },
     image: {
-        width: 120,
+        width: 140,
         height: 100,
-        marginLeft: 25,
-        resizeMode: 'contain'
+        marginLeft: 11,
+        // resizeMode: 'contain',
+        // marginTop:20
     },
-    txt: {
-        fontSize: 28
+    name: {
+        fontSize: 22,
+        textAlign:'center',
+        backgroundColor: '#80CBC4', // خلفية دائرية بلون أخضر مريح
+        fontWeight: 'bold',
+borderRadius:20,
+overflow: 'hidden',
+width:170,
+marginBottom:17,
+color:'#FFFFFF'
     },
     txt3: {
         fontSize: 16
     },
-    txt4: {
-        backgroundColor: 'red',
+    price: {
+        backgroundColor: '#90CAF9', // خلفية دائرية بلون أزرق فاتح
         color: 'white',
         padding: 8,
         marginLeft:'auto',
-        marginTop:5
+        marginTop:5,
+        overflow: 'hidden',
+        borderRadius:15
+
     },
     count: {
         flexDirection: 'row',
-        borderWidth: 2,
+        borderWidth: 1,
         marginLeft: 10,
     },
     pp: {
         flexDirection: 'row',
     },
     txt2: {
-        fontSize: 25,
-        marginHorizontal: 5
+        fontSize: 22,
+        marginHorizontal: 7,
+        marginTop:3
     },
     addToCart: {
         marginLeft: 30,
-        fontSize: 18,
+        fontSize: 17,
         fontWeight: 'bold',
-        color: 'blue',
-        borderWidth:2,
+        color: 'black',
+        borderWidth:0.7,
         padding:5,
-        backgroundColor:'yellow'
+        backgroundColor: '#FFEB3B', // خلفية دائرية بلون أصفر دافئ
+        marginTop:40
     },
     CC:{
         flexDirection:'row',
-        marginTop:10,
+        marginTop:30,
         
     }
 });

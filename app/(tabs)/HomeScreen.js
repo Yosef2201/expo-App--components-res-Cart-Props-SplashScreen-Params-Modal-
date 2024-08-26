@@ -9,9 +9,8 @@ import Icon from '../../components/Icon'
 import dataComponentCard from '../res/dataComponentCard'
 import ComponentCard from '../../components/ComponentCard'
 import { useNavigation } from 'expo-router'
-import ModalNew from '../../components/ModalNew'
+import ComponentCardData from './../../components/ComponentCardData';
 const HomeScreen = () => {
-  const [modalVisible, setModalVisible] = useState(false);
 
   const Nav=useNavigation()
   const renderDataCard =()=>{
@@ -32,10 +31,9 @@ const HomeScreen = () => {
   const renderComponentCard = () => {
     return dataComponentCard.map((category) => (
       <View  >
-        <Text style={styles.catagoyyName}>{category.name}</Text>
-        {category.data.map((item) => (
-          <ComponentCard key={item.id} item={item} />
-        ))}
+        
+          <ComponentCardData  data={category} />
+ 
       </View>
     ));
   };
@@ -56,22 +54,22 @@ const HomeScreen = () => {
       {renderGellary()}
 
       </ScrollView>
+     
+      {/* <TouchableOpacity
+      onPress={() => setModalVisible(true)}>
+      <Text style={styles.textModal}>Show Modal</Text>
+    </TouchableOpacity> */}
+      {/* <TouchableOpacity onPress={goToCart} >
+        <Text  style={styles.textCart}>Cart</Text>
+      </TouchableOpacity> */}
       <ScrollView horizontal>
       {renderIcons()}
 
       </ScrollView>
-      <TouchableOpacity
-      onPress={() => setModalVisible(true)}>
-      <Text style={styles.textModal}>Show Modal</Text>
-    </TouchableOpacity>
-      <TouchableOpacity onPress={goToCart} >
-        <Text  style={styles.textCart}>Cart</Text>
-      </TouchableOpacity>
       <ScrollView >
       {renderComponentCard()}
 
       </ScrollView>
-      <ModalNew modalVisible={modalVisible} setModalVisible={setModalVisible} />
 
 
     </View>
@@ -83,21 +81,25 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
   container:{
-    marginTop:50
+    marginTop:50,
+    backgroundColor: '#E8F5E9', // خلفية فاتحة للصفحة بشكل عام (أخضر فاتح جداً)
+
   },
   catagoyyName:{
     textAlign:'center',
     fontSize:30,
-    backgroundColor:'black',
-    color:'white',
-    margin:10
-
+    backgroundColor: '#CE93D8', // خلفية دائرية بلون أرجواني فاتح    color:'white',
+marginBottom:50,
+marginTop:50,
+overflow:'hidden',
+borderRadius:15,
+color:'white'
   },
   textCart:{
     fontSize:24,
     textAlign:'center',
 borderWidth:2,
-margin:30
+// margin:30
   },
   textModal:{
     backgroundColor:'blue',

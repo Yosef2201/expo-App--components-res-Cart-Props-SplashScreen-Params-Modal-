@@ -1,45 +1,61 @@
-import { StyleSheet, Text, View,Modal,Pressable } from 'react-native'
+import { StyleSheet, Text, View, Modal, Image, TouchableOpacity } from 'react-native';
 
-const ModalNew = ({modalVisible,setModalVisible}) => {
-   
+const ModalNew = ({ modalVisible, setModalVisible,item  }) => {
+    const { name, address, phone, description, img } = item ;
 
-  return (
-     <View style={styles.container}>
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
-        setModalVisible(!modalVisible);
-      }}>
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>Hello World!</Text>
-          <Pressable
-            style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(!modalVisible)}>
-            <Text style={styles.textStyle}>Hide Modal</Text>
-          </Pressable>
-        </View>
-      </View>
-    </Modal>
- 
-  </View>
-  )
-}
+    return (
+        <Modal
+            // animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(!modalVisible)}>
+            <View style={styles.container}>
+                <View style={styles.modalView}>
+                    <Image style={styles.pic} source={img} />
+                    <Text>{name}</Text>
+                    <Text>{phone}</Text>
+                    <Text>{address}</Text>
+                    <Text>{description}</Text>
+                    <TouchableOpacity onPress={() => setModalVisible(false)}>
+                        <Text style={styles.closeText}>Close</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </Modal>
+    );
+};
 
-export default ModalNew
+export default ModalNew;
 
 const styles = StyleSheet.create({
-    centeredView:{
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'white',
-        height:100,
-        width:200,
-        alignSelf:'center',
-        margin:'auto'
-        
-    }
-})
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    pic: {
+        width: 100,
+        height: 100,
+        marginBottom: 15,
+    },
+    closeText: {
+        color: 'blue',
+        marginTop: 15,
+        fontSize: 18,
+    },
+});

@@ -6,6 +6,7 @@ const GellaryComponent = ({item}) => {
   return (
     <View style={styles.container}>
         <Image style={styles.pic} source={item.img}/>
+        <Text style={styles.name} >{item.name}</Text>
     </View>
   )
 }
@@ -14,12 +15,20 @@ export default GellaryComponent
 
 const styles = StyleSheet.create({
     pic:{
-        width:320,
-        height:160,
+        width:300,
+        height:140,
         borderRadius:30
     },
     container:{
         padding:5
+    },
+    name:{
+      backgroundColor:'lightblue',
+      position:'absolute',
+      marginTop:10,
+      marginLeft:20,
+      // color:'gold',
+      fontSize:20
     }
 
 })

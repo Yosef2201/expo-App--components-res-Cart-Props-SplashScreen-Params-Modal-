@@ -35,6 +35,7 @@ export default function RootLayout() {
         <Stack.Screen name='HomeScreen'  />
 
         <Stack.Screen name='CartScreen' />
+        
       </Stack>
       </CartProvider>
     </ThemeProvider>
