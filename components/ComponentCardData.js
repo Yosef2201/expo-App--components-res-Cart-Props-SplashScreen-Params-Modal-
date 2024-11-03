@@ -13,7 +13,7 @@ const renderItem=()=>{
     ))
 }
 const goToLastScren=()=>{
-  nav.navigate(screenNames.LastScreen)
+  nav.navigate(screenNames.LastScreen, { category: props });
   
 }
   return (

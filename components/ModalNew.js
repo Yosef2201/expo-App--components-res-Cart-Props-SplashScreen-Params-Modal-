@@ -1,41 +1,34 @@
-import { useContext } from 'react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { StyleSheet, Text, View, Modal, Image, TouchableOpacity } from 'react-native';
-import { CartContext } from '../app/context/CartContext';
+import StoreContext from '../app/context/StoreContext';
 
-const ModalNew = ({ modalVisible, setModalVisible,item  }) => {
-    const [c, setC] = useState(1);
-    const { addToCart } = useContext(CartContext);
+const ModalNew = ({ modalVisible, setModalVisible, item }) => {
+    const [quantity, setQuantity] = useState(1);
+    const { cart, setCart } = useContext(StoreContext);
 
-
-    const { name, address, phone, description, img,id,price } = item ;
-    const plus = () => {
-        setC(c + 1);
-    };
-    
-
-    const minus = () => {
-        if (c > 1) {
-            setC(c - 1);
+    const addToCart = () => {
+        const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+        if (existingItemIndex !== -1) {
+            const updatedCart = [...cart];
+            updatedCart[existingItemIndex].quantity += quantity;
+            setCart(updatedCart);
+        } else {
+            const newItem = {
+                ...item,
+                quantity,
+            };
+            const newCart = [...cart, newItem];
+            setCart(newCart);
         }
+
+        setModalVisible(false);
     };
-    const handleAddToCart = () => {
-        // إنشاء كائن جديد يتضمن تفاصيل العنصر والكمية
-        const newItem = {
-            id: id,
-            name: name,
-            address: address,
-            phone: phone,
-            description: description,
-            price: price,
-            img: img,
-            c: c, // أضف الكمية المحددة
-        };
-    
-        // إضافة الكائن إلى سلة التسوق
-        addToCart(newItem);
-        setModalVisible('false')
+
+    const increment = () => setQuantity(quantity + 1);
+    const decrement = () => {
+        if (quantity > 1) setQuantity(quantity - 1);
     };
+
     return (
         <Modal
             animationType="slide"
@@ -44,26 +37,23 @@ const ModalNew = ({ modalVisible, setModalVisible,item  }) => {
             onRequestClose={() => setModalVisible(!modalVisible)}>
             <View style={styles.container}>
                 <View style={styles.modalView}>
-                    <Image style={styles.pic} source={img} />
-                    <Text>{name}</Text>
-                    <Text>{phone}</Text>
-                    <Text>{address}</Text>
-                    <Text>{description}</Text>
+                    <Image style={styles.pic} source={item.img} />
+                    <Text style={styles.itemName}>{item.name}</Text>
+                    <Text style={styles.itemDetails}>{item.phone}</Text>
+                    <Text style={styles.itemDetails}>{item.address}</Text>
+                    <Text style={styles.itemDescription}>{item.description}</Text>
                     <View style={styles.count}>
-                        <TouchableOpacity onPress={plus}>
-                            <Text style={styles.txt2}>+</Text>
+                        <TouchableOpacity onPress={increment}>
+                            <Text style={styles.counterButton}>+</Text>
                         </TouchableOpacity>
-                        <Text style={styles.txt2}>{c}</Text>
-                        <TouchableOpacity onPress={minus}>
-                            <Text style={styles.txt2}>-</Text>
+                        <Text style={styles.counterText}>{quantity}</Text>
+                        <TouchableOpacity onPress={decrement}>
+                            <Text style={styles.counterButton}>-</Text>
                         </TouchableOpacity>
-                    
-    
                     </View>
-                    <TouchableOpacity onPress={handleAddToCart} >
-<Text style={styles.addToCart}>Add To Cart</Text>
-
-</TouchableOpacity>
+                    <TouchableOpacity style={styles.addToCartButton} onPress={addToCart}>
+                        <Text style={styles.addToCartText}>Add To Cart</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => setModalVisible(false)}>
                         <Text style={styles.closeText}>Close</Text>
                     </TouchableOpacity>
@@ -80,12 +70,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
     },
     modalView: {
         margin: 20,
         backgroundColor: 'white',
         borderRadius: 20,
-        padding: 35,
+        padding: 25,
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
@@ -97,26 +88,66 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     pic: {
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 120,
+        borderRadius: 10,
         marginBottom: 15,
+        borderWidth: 2,
+        borderColor: '#ddd',
     },
-    closeText: {
-        color: 'blue',
-        marginTop: 15,
-        fontSize: 18,
+    itemName: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 5,
+    },
+    itemDetails: {
+        fontSize: 16,
+        color: '#555',
+        marginBottom: 3,
+    },
+    itemDescription: {
+        fontSize: 14,
+        color: '#777',
+        textAlign: 'center',
+        marginBottom: 10,
     },
     count: {
         flexDirection: 'row',
-        borderWidth: 0.6,
-        width:100,
-        padding:2
-        
-        },
-        addToCart: {
-            color: 'blue',
-        marginTop: 15,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        overflow: 'hidden',
+        width: 120,
+        padding: 5,
+        alignItems: 'center',
+    },
+    counterButton: {
+        fontSize: 20,
+        color: '#007BFF', // Button color
+        paddingHorizontal: 10,
+    },
+    counterText: {
         fontSize: 18,
-        },
-        
+        marginHorizontal: 10,
+        color: '#333',
+    },
+    addToCartButton: {
+        backgroundColor: '#007BFF',
+        borderRadius: 10,
+        padding: 10,
+        marginTop: 15,
+        width: '100%',
+        alignItems: 'center',
+    },
+    addToCartText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    closeText: {
+        color: '#007BFF',
+        marginTop: 15,
+        fontSize: 16,
+    },
 });
